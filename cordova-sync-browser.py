@@ -1,8 +1,8 @@
 import hashlib ,os,time
 from pathlib import Path
-import http.server
-import socketserver
 import subprocess
+import signal
+import psutil
 
 
 
@@ -14,7 +14,12 @@ def main(files_hash):
         files_new_hash=check_hashs()
         if not (files_new_hash == files_hash):
             if Ppid != None:
-                os.killpg(os.getpgid(Ppid.pid), signal.SIGTERM)
+                current_process = psutil.Process()
+                children = current_process.children(recursive=True)
+                for child in children:
+                    psutil.Process(child.pid).terminate()
+                print(Ppid.pid)
+                print("killing process")
             print("file was modified")
             files_hash=files_new_hash
             Ppid=subprocess.Popen("cordova run browser",shell=True)
