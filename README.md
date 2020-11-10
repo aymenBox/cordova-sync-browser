@@ -7,5 +7,6 @@ once a file has been modified the script will be notified and it will start a ne
 # requirement:
     1. you must have python 3 installed and add it to your path
     2. all the library used are preinstalled with python but you have to add **psutil** with **pip install psutil**
+![Alt Text](video.gif)
 this script can be optimized more so if you like it and you have some python skills consider contributing.
 [made by Aymen Boughanmi](https://www.facebook.com/aymen.box.52438)
