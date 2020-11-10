@@ -1,8 +1,8 @@
 import hashlib ,os,time
 from pathlib import Path
 import subprocess
-import signal
 import psutil
+import signal
 
 def closepros():
     current_process = psutil.Process()
@@ -10,12 +10,10 @@ def closepros():
     for child in children:
         psutil.Process(child.pid).terminate()
 
-def main(files_hash):
-    Ppid=None
+def main(files_hash,Ppid):
     while True:
         try:
             time.sleep(2)
-            print("testing")
             files_new_hash=check_hashs()
             if not (files_new_hash == files_hash):
                 if Ppid != None:
@@ -51,14 +49,12 @@ def calculateHash(file):
 
 files=[]
 files_hash=[]
-for path in Path('/www').rglob('*.*'):
+Ppid=None
+Ppid=subprocess.Popen("cordova run browser",shell=True)
+for path in Path('www').rglob('*.*'):
     files_hash.append(calculateHash(path))
     files.append(path)
+print(files)
 files_new_hash = files_hash
-main(files_hash)
-"""PORT = 8000
-Handler = http.server.SimpleHTTPRequestHandler
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print("serving at port", PORT)
-    httpd.serve_forever()"""
+main(files_hash,Ppid)
 
