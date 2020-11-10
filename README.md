@@ -4,8 +4,8 @@ once a file has been modified the script will be notified and it will start a ne
 **how to use:**
     1. put this script in your cordova home project 
     2. run it with powerShell or cmd using this command **python cordova-sync-browser.py**
-**requirement:**
-    1. you must have python 3 installed and add it to your path
-    2. all the library used are preinstalled with python but you have to add **psutil** with **pip install psutil**
+*requirement:
+    *. you must have python 3 installed and add it to your path
+    *. all the library used are preinstalled with python but you have to add **psutil** with **pip install psutil**
 this script can be optimized more so if you like it and you have some python skills consider contributing.
 [made by Aymen Boughanmi](https://www.facebook.com/aymen.box.52438)
