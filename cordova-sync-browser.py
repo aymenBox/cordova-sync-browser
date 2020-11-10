@@ -4,26 +4,36 @@ import subprocess
 import signal
 import psutil
 
-
+def closepros():
+    current_process = psutil.Process()
+    children = current_process.children(recursive=True)
+    for child in children:
+        psutil.Process(child.pid).terminate()
 
 def main(files_hash):
     Ppid=None
     while True:
-        time.sleep(2)
-        print("testing")
-        files_new_hash=check_hashs()
-        if not (files_new_hash == files_hash):
-            if Ppid != None:
-                current_process = psutil.Process()
-                children = current_process.children(recursive=True)
-                for child in children:
-                    psutil.Process(child.pid).terminate()
-                print(Ppid.pid)
-                print("killing process")
-            print("file was modified")
-            files_hash=files_new_hash
-            Ppid=subprocess.Popen("cordova run browser",shell=True)
-            #pid=p.pid
+        try:
+            time.sleep(2)
+            print("testing")
+            files_new_hash=check_hashs()
+            if not (files_new_hash == files_hash):
+                if Ppid != None:
+                    current_process = psutil.Process()
+                    children = current_process.children(recursive=True)
+                    for child in children:
+                        psutil.Process(child.pid).terminate()
+                    print(Ppid.pid)
+                    print("killing process")
+                print("file was modified")
+                files_hash=files_new_hash
+                Ppid=subprocess.Popen("cordova run browser",shell=True)
+                #pid=p.pid
+        except KeyboardInterrupt:
+            print('closing the program')
+            closepros()
+            os.kill(os.getpid(), signal.CTRL_C_EVENT)
+
 
 
 def check_hashs():
@@ -41,7 +51,7 @@ def calculateHash(file):
 
 files=[]
 files_hash=[]
-for path in Path('../www').rglob('*.*'):
+for path in Path('/www').rglob('*.*'):
     files_hash.append(calculateHash(path))
     files.append(path)
 files_new_hash = files_hash
